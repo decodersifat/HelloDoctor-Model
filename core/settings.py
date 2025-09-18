@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-s7ab9!9v9*ys1+#@f1o=2ra2+p9tvlta4xa!$iw4=%f8+4pc28
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '0.0.0.0']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '0.0.0.0', 'hellodoctor-model.onrender.com']
 
 
 # Application definition
