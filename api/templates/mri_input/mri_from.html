@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MRI Upload Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .form-container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #555;
+        }
+        input[type="file"] {
+            width: 100%;
+            padding: 10px;
+            border: 2px dashed #ddd;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        input[type="file"]:hover {
+            border-color: #007bff;
+        }
+        .file-info {
+            font-size: 12px;
+            color: #666;
+            margin-top: 5px;
+        }
+        .submit-btn {
+            background-color: #007bff;
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+        }
+        .submit-btn:hover {
+            background-color: #0056b3;
+        }
+        .required {
+            color: red;
+        }
+        .instructions {
+            background-color: #e7f3ff;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h1>MRI Brain Tumor Analysis</h1>
+        
+        <div class="instructions">
+            <h3>Instructions:</h3>
+            <p>Please upload exactly 4 files in NIfTI format (.nii or .nii.gz):</p>
+            <ul>
+                <li><strong>FLAIR</strong> - Fluid-Attenuated Inversion Recovery sequence</li>
+                <li><strong>T1CE</strong> - T1-weighted with contrast enhancement</li>
+                <li><strong>T2</strong> - T2-weighted sequence</li>
+                <li><strong>Mask</strong> - Ground truth segmentation mask</li>
+            </ul>
+        </div>
+
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            
+            <div class="form-group">
+                <label for="flair">FLAIR Sequence <span class="required">*</span></label>
+                <input type="file" id="flair" name="image" accept=".nii,.nii.gz" required>
+                <div class="file-info">Upload FLAIR sequence (.nii or .nii.gz)</div>
+            </div>
+
+            <div class="form-group">
+                <label for="t1ce">T1CE Sequence <span class="required">*</span></label>
+                <input type="file" id="t1ce" name="image" accept=".nii,.nii.gz" required>
+                <div class="file-info">Upload T1-weighted with contrast enhancement (.nii or .nii.gz)</div>
+            </div>
+
+            <div class="form-group">
+                <label for="t2">T2 Sequence <span class="required">*</span></label>
+                <input type="file" id="t2" name="image" accept=".nii,.nii.gz" required>
+                <div class="file-info">Upload T2-weighted sequence (.nii or .nii.gz)</div>
+            </div>
+
+            <div class="form-group">
+                <label for="mask">Mask File <span class="required">*</span></label>
+                <input type="file" id="mask" name="image" accept=".nii,.nii.gz" required>
+                <div class="file-info">Upload ground truth segmentation mask (.nii or .nii.gz)</div>
+            </div>
+
+            <button type="submit" class="submit-btn">Process MRI Analysis</button>
+        </form>
+    </div>
+</body>
+</html>
