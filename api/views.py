@@ -60,7 +60,13 @@ def predict(request):
         print(f"[JINJA] Mask unique values: {np.unique(mask)}")
         
         test_img_input = np.expand_dims(img, axis=0)
-        model = load_model(r"E:\HDclone\Hello-doctor\backend\django\model\model-V2-diceLoss_focal.keras", compile=False)
+        model_path = os.path.join(settings.BASE_DIR, 'model', 'model-V2-diceLoss_focal.keras')
+        if not os.path.exists(model_path):
+            return JsonResponse({
+                'success': False,
+                'error': f'AI model not found at {model_path}'
+            }, status=500)
+        model = load_model(model_path, compile=False)
         test_prediction = model.predict(test_img_input)
         print(f"[JINJA] Prediction complete. Shape: {test_prediction.shape}")
         print(f"[JINJA] Prediction min/max values: {test_prediction.min():.6f} / {test_prediction.max():.6f}")
@@ -462,16 +468,12 @@ def api_mri_process(request):
         test_img_input = np.expand_dims(img, axis=0)
         print(f"Input shape for model: {test_img_input.shape}")
         
-        # Load model (update path as needed)
         model_path = os.path.join(settings.BASE_DIR, 'model', 'model-V2-diceLoss_focal.keras')
         if not os.path.exists(model_path):
-            # Try alternative path
-            model_path = r"E:\Hello Doctor MRI Model\django\model\model-V2-diceLoss_focal.keras"
-            if not os.path.exists(model_path):
-                return JsonResponse({
-                    'success': False,
-                    'error': 'AI model not found. Please contact administrator.'
-                }, status=500)
+            return JsonResponse({
+                'success': False,
+                'error': f'AI model not found at {model_path}'
+            }, status=500)
             
         try:
             print(f"Loading model from: {model_path}")
